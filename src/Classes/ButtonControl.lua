@@ -34,30 +34,62 @@ function ButtonClass:IsMouseOver()
 	return self:IsMouseInBounds()
 end
 
+function DrawRoundedRectangle(x, y, width, height, radius)
+    -- Dibuja el rectángulo principal
+    DrawImage(nil, x + radius, y, width - radius * 2, height)
+    DrawImage(nil, x, y + radius, width, height - radius * 2)
+    
+    -- Dibuja las esquinas redondeadas con más precisión
+    local steps = radius * 2
+    local offsetY = 1 -- Desplazamiento hacia arriba para las esquinas inferiores
+    
+    for i = 0, steps do
+        local t = i / steps
+        local angleRad = t * math.pi / 2
+        local dx = math.sin(angleRad) * radius
+        local dy = math.cos(angleRad) * radius
+        local lineWidth = math.ceil(dx)
+        
+        -- Esquina superior izquierda
+        DrawImage(nil, x + radius - lineWidth, y + (radius - dy), lineWidth, 1)
+        -- Esquina superior derecha
+        DrawImage(nil, x + width - radius, y + (radius - dy), lineWidth, 1)
+        -- Esquina inferior izquierda (elevada)
+        DrawImage(nil, x + radius - lineWidth, y + height - (radius - dy) - offsetY, lineWidth, 1)
+        -- Esquina inferior derecha (elevada)
+        DrawImage(nil, x + width - radius, y + height - (radius - dy) - offsetY, lineWidth, 1)
+    end
+end
+
 function ButtonClass:Draw(viewPort, noTooltip)
-	local x, y = self:GetPos()
-	local width, height = self:GetSize()
-	local enabled = self:IsEnabled()
-	local mOver = self:IsMouseOver()
-	local locked = self:GetProperty("locked")
-	if not enabled then
-		SetDrawColor(0.33, 0.33, 0.33)
-	elseif mOver or locked then
-		SetDrawColor(1, 1, 1)
-	else
-		SetDrawColor(0.5, 0.5, 0.5)
-	end
-	DrawImage(nil, x, y, width, height)
-	if not enabled then
-		SetDrawColor(0, 0, 0)
-	elseif self.clicked and mOver then
-		SetDrawColor(0.5, 0.5, 0.5)
-	elseif mOver or locked then
-		SetDrawColor(0.33, 0.33, 0.33)
-	else
-		SetDrawColor(0, 0, 0)
-	end
-	DrawImage(nil, x + 1, y + 1, width - 2, height - 2)
+    local x, y = self:GetPos()
+    local width, height = self:GetSize()
+    local enabled = self:IsEnabled()
+    local mOver = self:IsMouseOver()
+    local locked = self:GetProperty("locked")
+    local radius = 4 -- radio de las esquinas redondeadas
+    
+    -- Color del borde exterior
+    if not enabled then
+        SetDrawColor(0.4, 0.3, 0.4)
+    elseif mOver or locked then
+        SetDrawColor(0.8, 0.6, 0.8)
+    else
+        SetDrawColor(0.6, 0.4, 0.6)
+    end
+    DrawRoundedRectangle(x, y, width, height, radius)
+    
+    -- Color del relleno interior
+    if not enabled then
+        SetDrawColor(0.2, 0.1, 0.2)
+    elseif self.clicked and mOver then
+        SetDrawColor(0.5, 0.3, 0.5)
+    elseif mOver or locked then
+        SetDrawColor(0.4, 0.2, 0.4)
+    else
+        SetDrawColor(0.3, 0.1, 0.3)
+    end
+    DrawRoundedRectangle(x + 1, y + 1, width - 2, height - 2, radius - 1)
 	if self.image then
 		if enabled then
 			SetDrawColor(1, 1, 1)

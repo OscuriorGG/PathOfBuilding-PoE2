@@ -244,14 +244,14 @@ function DropDownClass:Draw(viewPort, noTooltip)
 	scrollBar:SetContentDimension(lineHeight * self:GetDropCount(), self.dropHeight)
 	local dropY = self.dropUp and y - dropExtra or y + height
 	if not enabled then
-		SetDrawColor(0.33, 0.33, 0.33)
+		SetDrawColor(0.4, 0.3, 0.4)
 	elseif mOver or self.dropped then
-		SetDrawColor(1, 1, 1)
+		SetDrawColor(0.8, 0.6, 0.8)
 	elseif self.borderFunc then
 		local r, g, b = self.borderFunc()
 		SetDrawColor(r, g, b)
 	else
-		SetDrawColor(0.5, 0.5, 0.5)
+		SetDrawColor(0.6, 0.4, 0.6)
 	end
 	DrawImage(nil, x, y, width, height)
 	if self.dropped then
@@ -260,24 +260,24 @@ function DropDownClass:Draw(viewPort, noTooltip)
 		SetDrawLayer(nil, 0)
 	end
 	if not enabled or self.dropped then
-		SetDrawColor(0, 0, 0)
+		SetDrawColor(0.2, 0.1, 0.2)
 	elseif mOver then
-		SetDrawColor(0.33, 0.33, 0.33)
+		SetDrawColor(0.4, 0.2, 0.4)
 	else
-		SetDrawColor(0, 0, 0)
+		SetDrawColor(0.3, 0.1, 0.3)
 	end
 	DrawImage(nil, x + 1, y + 1, width - 2, height - 2)
 	if not enabled then
-		SetDrawColor(0.33, 0.33, 0.33)
+		SetDrawColor(0.4, 0.3, 0.4)
 	elseif mOver or self.dropped then
-		SetDrawColor(1, 1, 1)
+		SetDrawColor(0.8, 0.6, 0.8)
 	else
-		SetDrawColor(0.5, 0.5, 0.5)
+		SetDrawColor(0.6, 0.4, 0.6)
 	end
 	main:DrawArrow(x + width - height/2, y + height/2, height/2, height/2, "DOWN")
 	if self.dropped then
 		SetDrawLayer(nil, 5)
-		SetDrawColor(0, 0, 0)
+		SetDrawColor(0.2, 0.1, 0.2)
 		DrawImage(nil, x + 1, dropY + 1, self.droppedWidth - 2, dropExtra - 2)
 		SetDrawLayer(nil, 0)
 	end
@@ -357,14 +357,14 @@ function DropDownClass:Draw(viewPort, noTooltip)
 				local y = (dropIndex - 1) * lineHeight - scrollBar.offset
 				-- highlight background if hovered
 				if index == self.hoverSel then
-					SetDrawColor(0.33, 0.33, 0.33)
+					SetDrawColor(0.4, 0.2, 0.4)
 					DrawImage(nil, 0, y, width - 4, lineHeight)
 				end
 				-- highlight font color if hovered or selected
 				if index == self.hoverSel or index == self.selIndex then
 					SetDrawColor(1, 1, 1)
 				else
-					SetDrawColor(0.66, 0.66, 0.66)
+					SetDrawColor(0.8, 0.6, 0.8)
 				end
 				-- draw actual item label with search match highlight if available
 				local label = nil
@@ -534,3 +534,4 @@ function DropDownClass:CheckDroppedWidth(enable)
 		self.controls.scrollBar.x = -1
 	end
 end
+
