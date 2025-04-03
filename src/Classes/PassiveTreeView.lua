@@ -327,14 +327,11 @@ function PassiveTreeViewClass:Draw(build, viewPort, inputEvents)
 	end
 
 	-- Draw the background artwork
-	local bg = tree:GetAssetByName("Background2")
-	if bg.width == 0 then
-		bg.width, bg.height = bg.handle:ImageSize()
-	end
-	if bg.width > 0 then
-		SetDrawColor(1, 1, 1, 1)
-		DrawImage(bg.handle, viewPort.x, viewPort.y, viewPort.width, viewPort.height, 0, 0, viewPort.width / 100, viewPort.height / 100)
-	end
+	SetDrawLayer(0)
+	local backgroundImage = NewImageHandle() 
+	backgroundImage:Load("TreeData/Tree_Background.png")
+	SetDrawColor(1, 1, 1, 1)
+	DrawImage(backgroundImage, viewPort.x, viewPort.y, viewPort.width, viewPort.height)
 
 	-- draw allocMode text
 	self:DrawAllocMode(spec.allocMode, viewPort)

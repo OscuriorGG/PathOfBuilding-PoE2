@@ -285,13 +285,6 @@ local TreeTabClass = newClass("TreeTab", "ControlHost", function(self, build)
 end)
 
 function TreeTabClass:Draw(viewPort, inputEvents)
-	-- Primero dibujamos la imagen de fondo
-    SetDrawLayer(0)
-    SetDrawColor(1, 1, 1, 0.3) -- El último valor (0.3) controla la transparencia
-    -- Asumiendo que la imagen está en la carpeta TreeData
-    DrawImage("TreeData/background.png", viewPort.x, viewPort.y, viewPort.width, viewPort.height)
-
-    -- Continúa con el código original
     self.anchorControls.x = viewPort.x + 4
     self.anchorControls.y = viewPort.y + viewPort.height - 24
 
